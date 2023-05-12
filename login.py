@@ -8,9 +8,15 @@ from kivymd.app import MDApp
 class MainApp(MDApp):
     def build(self):
         self.theme_cls.theme_style="Dark"
-        self.theme_cls.primary_palette = "Indigo"
-        self.theme_cls.accent_palette = "Red"
-        return Builder.load_file("color_theme.kv")
+        self.theme_cls.primary_palette = "BlueGray"
+        return Builder.load_file("login.kv")
 
+    def logger(self):
+        self.root.ids.welcome_label.text=f'Sub {self.root.ids.user.text}!'
+        print(self.root.ids.password.text)
+    def clear(self):
+        self.root.ids.welcome_label.text="WELCOME"
+        self.root.ids.user.text=""
+        self.root.ids.password.text=""
 
 MainApp().run()
