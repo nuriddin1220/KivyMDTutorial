@@ -1,0 +1,11 @@
+MDFloatLayout:
+    MDRaisedButton:
+        text: app.some_text
+        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+        on_release: 
+            for i in range(5):\
+            our_label.text=our_label.text+"\nLooped=> "+str(i)
+    MDLabel:
+        id:our_label
+        text: ""
+        pos_hint: {'center_x': 0.95,'center_y': 0.4}

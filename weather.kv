@@ -1,0 +1,60 @@
+MDBoxLayout:
+    orientation: 'vertical'
+    MDTopAppBar:
+        title: "Ob-havo ma'lumoti"
+        left_action_items: [["menu"]]
+        elevation:4
+        # md_bg_color: 0.2, 0.2, 0.2,1
+        # specific_text_color: 1,1,1,1
+    MDBottomNavigation:
+        selected_color_background: "orange"
+        text_color_active: "blue"
+        text_color_normal: 1, 1, 1, 1
+        # panel_color:(112/255,128/255,144/255,0.3)
+        # Add a NavigationItem for each Navigation.
+        MDBottomNavigationItem:
+            name: "screen 1"
+            text: "Asosiy Shaharlar"
+            icon: "city-variant-outline"
+    
+            # Add Contents here
+            ScrollView:
+                MDList:
+                    id:hudud_list
+                    # TwoLineListItem:
+                    #     id:item1
+                    #     text: 'Awesome List Item #1'
+                    #     secondary_text:"Second Line"
+                    # TwoLineListItem:
+                    #     id:item2
+                    #     text: 'Awesome List Item #2'
+                    #     secondary_text:"Second Line"
+        MDBottomNavigationItem:
+            name: "screen 2"
+            text: "Mening Joylashuvim"
+            icon: "map-marker-radius-outline"
+    
+            # Add Contents here
+            # MDLabel:
+            #     text: "Codemy youtube channel rocks!" 
+            #     halign: "center"
+            MDBoxLayout:
+                id: my_location_box
+                padding: "10dp"
+                pos_hint: {"center_x": .5, "center_y": .5}
+                MDCard:
+                    line_color:(0.2, 0.2, 0.2, 0.8)
+                    style:"elevated"
+                    shadow_softness:2
+                    shadow_offset:(0, 1)
+
+
+        MDBottomNavigationItem:
+            name: "screen 3"
+            text: "Xarita Bo'yicha"
+            icon: "map-search-outline"
+    
+            # Add Contents here
+            MDLabel:
+                text: "My Instagram:\nsharipov_n"
+                halign: "center"

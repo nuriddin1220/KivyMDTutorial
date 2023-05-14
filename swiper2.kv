@@ -1,0 +1,58 @@
+<MySwiper@MDSwiperItem>
+
+    # FitImage:
+    #     source: "1.jpg"
+    #     radius: [20,]
+
+MDScreen:
+
+    MDTopAppBar:
+        id: toolbar
+        title: "MDSwiper"
+        elevation: 4
+        pos_hint: {"top": 1}
+
+    MDSwiper:
+        id:swiper
+        size_hint_y: None
+        height: root.height - toolbar.height - dp(40)
+        y: root.height - self.height - toolbar.height - dp(20)
+
+        on_swipe: print("on_swipe")#syiping any direction
+        on_pre_swipe: print("on_pre_swipe")
+        on_overswipe_right: print("on_overswipe_right")
+        on_overswipe_left: print("on_overswipe_left")
+        on_swipe_left:app.on_swipe_left()
+        on_swipe_right:app.on_swipe_right()
+        MySwiper:
+            FitImage:
+                source: "1.jpg"
+                radius: [20,]
+        MySwiper:
+            FitImage:
+                source: "3.jpg"
+                radius: [20,]
+
+        MySwiper:
+            FitImage:
+                source: "4.jpg"
+                radius: [20,]
+
+        MySwiper:
+            FitImage:
+                source: "5.jpg"
+                radius: [20,]
+    
+    BoxLayout:
+        orientation:"horizontal"
+        
+        MDRaisedButton:
+            text:"Previous"
+            on_release:if swiper.get_current_index() >0:swiper.set_current(swiper.get_current_index()-1)
+
+        MDRaisedButton:
+            text:"Next"
+            # on_release:print(len(swiper.get_items()))
+            on_release:if swiper.get_current_index() <len(swiper.get_items())-1:swiper.set_current(swiper.get_current_index()+1)
+
+            #len(swiper.get_items())

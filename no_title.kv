@@ -1,0 +1,17 @@
+MDFloatLayout:
+    MDBoxLayout:
+        orientation: 'vertical'
+        size: root.width,root.height
+
+        MDLabel:
+            text_size:self.size
+            text: "Click the button to close the App"
+            halign: 'center'
+            valign: 'middle'
+            font_size: 32
+        
+        MDRaisedButton:
+            size_hint: (1,.5)
+            font_size:32
+            text: 'Close the App'
+            on_press: app.stop()
