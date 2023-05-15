@@ -8,6 +8,7 @@ from kivy.uix.image import Image
 from kivymd.uix.label import MDIcon
 from kivymd.uix.spinner.spinner import MDSpinner
 from kivy.metrics import dp
+from kivymd.uix.screen import MDScreen
 import requests
 import geocoder
 import json
@@ -51,6 +52,7 @@ class MainApp(MDApp):
         self.theme_cls.primary_palette = "BlueGray"
         self.widget_added = False
         self.data_loaded = False
+        self.spinner_status = False
         return Builder.load_file("weather.kv")
     
     def on_start(self):
@@ -63,31 +65,40 @@ class MainApp(MDApp):
             )
             hudud_list.add_widget(line_item)
         #REQUEST WEATHER STAFF
-        
+
 
     def my_loc_tab(self):
+        # spinner = self.root.ids.spinner_screen
+        # my_location_card=self.root.ids.my_location_card
+        # my_location_box=self.root.ids.my_location_box
+        # my_location_box.remove_widget(my_location_card)
+        # my_location_box.add_widget(self.root.ids.spinner_screen)
+        # spinner.active=True
         data=get_current_location()
-        if data is None:
-            self.root.ids.my_location_box.remove_widget(self.root.ids.my_location_card)
-            if  self.widget_added:
-                pass
-            else:
-                self.widget_added=True
-                self.root.ids.my_location_box.orientation='vertical'
-                self.root.ids.my_location_box.add_widget(
-                   Image(source='no_weather_data.png',size_hint= (1, 0.8),pos_hint= {'center_x': 0.5})
-                   )
-                self.root.ids.my_location_box.add_widget(
-                    MDLabel(
-                        text="No Connection to the internet",
-                        halign="center",
-                        valign= 'center',
-                        font_style="H5",
-                        size_hint= (1, 0.2)
-                    ))
+        # self.root.ids.my_spinner.active=False
+        # if data is None:
+        #     self.root.ids.my_location_box.remove_widget(self.root.ids.my_location_card)
+        #     if  self.widget_added:
+        #         pass
+        #     else:
+        #         self.widget_added=True
+        #         self.root.ids.my_location_box.orientation='vertical'
+        #         self.root.ids.my_location_box.add_widget(
+        #            Image(source='no_weather_data.png',size_hint= (1, 0.8),pos_hint= {'center_x': 0.5})
+        #            )
+        #         self.root.ids.my_location_box.add_widget(
+        #             MDLabel(
+        #                 text="No Connection to the internet",
+        #                 halign="center",
+        #                 valign= 'center',
+        #                 font_style="H5",
+        #                 size_hint= (1, 0.2)
+        #             ))
             
-        else:
-            print(get_weather(data[0],data[1],self.appid))
+        # else:
+        print(get_weather(data[0],data[1],self.appid))
+        # my_location_box.remove_widget(spinner_screen)
+        # my_location_box.add_widget(my_location_card)
 
 
 MainApp().run()

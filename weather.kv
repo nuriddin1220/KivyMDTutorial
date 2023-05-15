@@ -30,51 +30,64 @@ MDBoxLayout:
             text: "Mening Joylashuvim"
             icon: "map-marker-radius-outline"
             on_tab_release: app.my_loc_tab()
+        
 
             MDBoxLayout:
                 id: my_location_box
                 padding: "10dp"
                 pos_hint: {"center_x": .5, "center_y": .5}
-                
-                
-                MDCard:
-                    id: my_location_card
-                    line_color:(0.2, 0.2, 0.2, 0.8)
-                    style:"elevated"
-                    shadow_softness:2
-                    shadow_offset:(0, 1)
+                orientation: 'vertical'
 
-                    MDGridLayout:
-                        cols:2
-                        padding: "7dp"
-                        spacing: '5dp'
-                        MDCard:
-                            line_color:(0.2, 0.2, 0.2, 0.8)
-                            style:"outlined"
-                            shadow_softness:2
-                            shadow_offset:(0, 1)
-                            size_hint: 1,.5
 
-                            MDGridLayout:
-                                cols:1
-                                padding: "10dp"
-                                Image:
-                                    allow_stretch:True
-                                    keep_ratio:False
-                                    id:weather_icon
-                                    source:"no_weather_data.png"
-                                    size_hint: .5,.8
-                                MDLabel:
-                                    text: "weather description"
-                                    size_hint: .5,.2
+                MDSpinner:
+                    id:screen_spinner
+                    size_hint: None, None
+                    size: dp(80), dp(80)
+                    pos_hint: {'center_x': .5, 'center_y': .5}
+                    active:False
+                    line_width:'4dp'
                                 
 
-                        MDCard:
-                            line_color:(0.2, 0.2, 0.2, 0.8)
-                            style:"outlined"
-                            shadow_softness:2
-                            shadow_offset:(0, 1)
-                            size_hint: 1,.5
+                
+                # MDCard:
+                #     id: my_location_card
+                #     line_color:(0.2, 0.2, 0.2, 0.8)
+                #     style:"elevated"
+                #     shadow_softness:2
+                #     shadow_offset:(0, 1)
+
+                MDGridLayout:
+                    id: my_location_card
+                    cols:2
+                    padding: "7dp"
+                    spacing: '5dp'
+                    MDCard:
+                        line_color:(0.2, 0.2, 0.2, 0.8)
+                        style:"outlined"
+                        shadow_softness:2
+                        shadow_offset:(0, 1)
+                        size_hint: 1,.5
+
+                        MDGridLayout:
+                            cols:1
+                            padding: "10dp"
+                            Image:
+                                allow_stretch:True
+                                keep_ratio:False
+                                id:weather_icon
+                                source:"no_weather_data.png"
+                                size_hint: .5,.8
+                            MDLabel:
+                                text: "weather description"
+                                size_hint: .5,.2
+                            
+
+                    MDCard:
+                        line_color:(0.2, 0.2, 0.2, 0.8)
+                        style:"outlined"
+                        shadow_softness:2
+                        shadow_offset:(0, 1)
+                        size_hint: 1,.5
 
 
         MDBottomNavigationItem:
