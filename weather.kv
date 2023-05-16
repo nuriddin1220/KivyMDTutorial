@@ -5,12 +5,12 @@ MDBoxLayout:
         # title: "Ob-havo ma'lumoti"
         left_action_items: [["menu"]]
         elevation:4
+        
 
     MDBottomNavigation:
         selected_color_background: "orange"
         text_color_active: "blue"
         text_color_normal: 1, 1, 1, 1
-
 
         MDBottomNavigationItem:
             name: "screen 1"
@@ -80,7 +80,6 @@ MDBoxLayout:
                         size_hint: .3,.1
                         on_press:app.weather_pressed()
                         on_release:app.weather_released()
-                        disabled: True if app.custom_loc[0]=='00.0000' else False
 
                     MDSpinner:
                         id:my_spinner
@@ -107,3 +106,6 @@ MDBoxLayout:
             MDLabel:
                 text: "My Instagram:\nsharipov_n"
                 halign: "center"
+
+
+        

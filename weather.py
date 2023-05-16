@@ -13,6 +13,10 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton
 from kivy.uix.popup import Popup 
 from kivy.uix.button import Button
+from kivymd.uix.gridlayout import MDGridLayout
+from kivymd.uix.scrollview import MDScrollView
+from kivymd.uix.list.list import MDList
+import datetime
 import requests
 import geocoder
 import json
@@ -30,16 +34,13 @@ def get_weather(lat,long,appid,language='en'):
     url = 'https://api.openweathermap.org/data/2.5/weather'
     params = {'lat': lat,'lon': long,'appid': appid,'lang': language,'units': 'metric'}
     timeout_seconds = 5
-    response = requests.get(url, params=params,timeout=timeout_seconds)
-    if response.status_code == 200:
+    try:
+        response = requests.get(url, params=params,timeout=timeout_seconds)
         return response.json()
-    else:
+    except:
         return None
 
-def get_icon(icon_code):
-    url=f'https://openweathermap.org/img/wn/{icon_code}@2x.png'
-    response = requests.get(url)
-    return response.json()
+
 
 
 
@@ -74,9 +75,7 @@ class MainApp(MDApp):
         if geo_data is None:
             self.root.ids.network_error_label.opacity=1
             self.root.ids.network_error_label.text="Error:Getting GeoInfo data"
-            self.root.ids.weather_button.disabled=True
         else:
-            self.root.ids.weather_button.disabled=False
             self.root.ids.network_error_label.opacity=0
             self.root.ids.lat.text=f'Lat: {str(geo_data[0])}'
             self.root.ids.lon.text=f'Lon: {str(geo_data[1])}'
@@ -92,14 +91,52 @@ class MainApp(MDApp):
 
     def weather_released(self):
         if self.custom_loc[0]=="00.000":
-            self.root.ids.weather_button.disabled=True
+            self.root.ids.network_error_label.text="Error:You need to take GeoInfo first"
         else:
             weather_data=get_weather(self.custom_loc[0],self.custom_loc[1],self.appid)
+            print(weather_data)
             if weather_data is None:
                 self.root.ids.network_error_label.opacity=1
                 self.root.ids.network_error_label.text="Error:Getting Weather Info data"
-                self.root.ids.weather_button.disabled=True
-            print(weather_data)
+            else:
+                layout=MDCard(pos_hint={'center_x': 0.5,'center_y': 0.5},size_hint=(1,1),spacing=dp(5),padding=dp(5))
+                #needed data
+                icon_code=weather_data['weather'][0]['icon']
+                icon_url=f'https://openweathermap.org/img/wn/{icon_code}@2x.png'
+                description=weather_data['weather'][0]['description']
+                temperature=weather_data['main']['temp']
+                humidity=weather_data['main']['humidity']
+                visibility=weather_data['visibility'] #m
+                wind_speed=weather_data['wind']['speed'] #m/s
+                clouds=weather_data['clouds']['all']
+                city_name=weather_data['name']
+                data_time=datetime.datetime.fromtimestamp(weather_data['dt']).strftime('%B %d, %Y %H:%M:%S')
+                sunrise_time=datetime.datetime.fromtimestamp(weather_data['sys']['sunrise']).strftime('%B %d, %Y %H:%M:%S')
+                sunset_time=datetime.datetime.fromtimestamp(weather_data['sys']['sunset']).strftime('%B %d, %Y %H:%M:%S')
+                #showing data
+                card1=MDCard(size_hint=(0.5,1),pos_hint={'center_x': 0.25,'center_y': 0.5},style="elevated")
+                box1=MDGridLayout(cols=1,rows=2,padding=dp(10),spacing=dp(10))
+                box1.add_widget(Image(source=icon_url,size_hint=(1,0.7)))
+                box1.add_widget(MDLabel(text=f'DESCRIPTION : {description.upper()}',halign='center',size_hint=(1,0.3)))
+                card1.add_widget(box1)
+                layout.add_widget(card1)
+                
+                card2=MDCard(size_hint=(0.5,1),pos_hint={'center_x': 0.75,'center_y': 0.5},style="elevated")
+                box2 =MDList()
+                box2.add_widget(MDLabel(text='Weather Data',halign='center'))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="temperature-celsius",theme_icon_color="Custom",icon_color="orange"),text=f"Temperature: {str(temperature)}",secondary_text= "Celsius"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="water-percent",theme_icon_color="Custom",icon_color="orange"),text=f"Humidity: {str(humidity)}",secondary_text= "Percent,%"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="eye",theme_icon_color="Custom",icon_color="orange"),text=f"Visibility: {str(visibility)}",secondary_text= "Meter"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="wind-power",theme_icon_color="Custom",icon_color="orange"),text=f"Wind speed: {str(wind_speed)}",secondary_text= "Meter/Sec"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="wind-power",theme_icon_color="Custom",icon_color="orange"),text=f"Cloudiness: {str(clouds)}",secondary_text= "Percent,%"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="city",theme_icon_color="Custom",icon_color="orange"),text=f"City name: {str(city_name)}",secondary_text= "name"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="clock-time-eight",theme_icon_color="Custom",icon_color="orange"),text=f"Data Time: {str(data_time)}",secondary_text= "human-readable"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="weather-sunset-up",theme_icon_color="Custom",icon_color="orange"),text=f"Sunrise Time: {str(sunrise_time)}",secondary_text= "human-readable"))
+                box2.add_widget(TwoLineIconListItem(IconLeftWidget(icon="weather-sunset-down",theme_icon_color="Custom",icon_color="orange"),text=f"Sunset Time: {str(sunset_time)}",secondary_text= "human-readable"))
+                
+                card2.add_widget(MDScrollView(box2))
+                layout.add_widget(card2)
+                self.root.ids.my_location_screen.add_widget(layout)
             self.root.ids.my_spinner.active=False
 
     def my_loc_tab(self):
