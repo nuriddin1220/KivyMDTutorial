@@ -9,13 +9,17 @@ from kivymd.uix.label import MDIcon
 from kivymd.uix.spinner.spinner import MDSpinner
 from kivy.metrics import dp
 from kivymd.uix.screen import MDScreen
+from kivymd.uix.dialog import MDDialog
+from kivymd.uix.button import MDRaisedButton
+from kivy.uix.popup import Popup 
+from kivy.uix.button import Button
 import requests
 import geocoder
 import json
 
 
 def get_current_location():
-    g = geocoder.ip('me')
+    g = geocoder.ip('me',timeout=5)
     if g.latlng:
         latitude, longitude = g.latlng
         return latitude, longitude
@@ -42,20 +46,20 @@ def get_icon(icon_code):
 class MainApp(MDApp):
     title="Nuriddin's Weather App"
     appid='a6ffc8b3cadf6c0445beba80ac186b62'
-    spinner = None
     with open('vils.json') as json_f:
             data_list=json.load(json_f)
+    custom_loc=['00.0000','00.0000']
 
     def build(self):
         self.theme_cls.theme_style="Dark"
         self.theme_cls.material_style = "M3"
         self.theme_cls.primary_palette = "BlueGray"
         self.widget_added = False
-        self.data_loaded = False
-        self.spinner_status = False
+        self.spinner_added=False
         return Builder.load_file("weather.kv")
     
-    def on_start(self):
+    
+    def on_start(self):         
         hudud_list=self.root.ids.hudud_list
         for item in self.data_list:
             line_item =TwoLineIconListItem(
@@ -64,41 +68,43 @@ class MainApp(MDApp):
                     secondary_text=item['shahar_nomi']
             )
             hudud_list.add_widget(line_item)
-        #REQUEST WEATHER STAFF
 
+    def loc_released(self):
+        geo_data=get_current_location()
+        if geo_data is None:
+            self.root.ids.network_error_label.opacity=1
+            self.root.ids.network_error_label.text="Error:Getting GeoInfo data"
+            self.root.ids.weather_button.disabled=True
+        else:
+            self.root.ids.weather_button.disabled=False
+            self.root.ids.network_error_label.opacity=0
+            self.root.ids.lat.text=f'Lat: {str(geo_data[0])}'
+            self.root.ids.lon.text=f'Lon: {str(geo_data[1])}'
+            self.custom_loc=[geo_data[0],geo_data[1]]
+        self.root.ids.my_spinner.active=False
+
+
+    def loc_pressed(self):
+        self.root.ids.my_spinner.active=True
+
+    def weather_pressed(self):
+        self.root.ids.my_spinner.active=True
+
+    def weather_released(self):
+        if self.custom_loc[0]=="00.000":
+            self.root.ids.weather_button.disabled=True
+        else:
+            weather_data=get_weather(self.custom_loc[0],self.custom_loc[1],self.appid)
+            if weather_data is None:
+                self.root.ids.network_error_label.opacity=1
+                self.root.ids.network_error_label.text="Error:Getting Weather Info data"
+                self.root.ids.weather_button.disabled=True
+            print(weather_data)
+            self.root.ids.my_spinner.active=False
 
     def my_loc_tab(self):
-        # spinner = self.root.ids.spinner_screen
-        # my_location_card=self.root.ids.my_location_card
-        # my_location_box=self.root.ids.my_location_box
-        # my_location_box.remove_widget(my_location_card)
-        # my_location_box.add_widget(self.root.ids.spinner_screen)
-        # spinner.active=True
-        data=get_current_location()
-        # self.root.ids.my_spinner.active=False
-        # if data is None:
-        #     self.root.ids.my_location_box.remove_widget(self.root.ids.my_location_card)
-        #     if  self.widget_added:
-        #         pass
-        #     else:
-        #         self.widget_added=True
-        #         self.root.ids.my_location_box.orientation='vertical'
-        #         self.root.ids.my_location_box.add_widget(
-        #            Image(source='no_weather_data.png',size_hint= (1, 0.8),pos_hint= {'center_x': 0.5})
-        #            )
-        #         self.root.ids.my_location_box.add_widget(
-        #             MDLabel(
-        #                 text="No Connection to the internet",
-        #                 halign="center",
-        #                 valign= 'center',
-        #                 font_style="H5",
-        #                 size_hint= (1, 0.2)
-        #             ))
-            
-        # else:
-        print(get_weather(data[0],data[1],self.appid))
-        # my_location_box.remove_widget(spinner_screen)
-        # my_location_box.add_widget(my_location_card)
+        pass
+
 
 
 MainApp().run()

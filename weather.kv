@@ -22,72 +22,80 @@ MDBoxLayout:
                 MDList:
                     id:hudud_list
                     
-
-
-
         MDBottomNavigationItem:
             name: "screen 2"
             text: "Mening Joylashuvim"
             icon: "map-marker-radius-outline"
             on_tab_release: app.my_loc_tab()
-        
 
-            MDBoxLayout:
-                id: my_location_box
-                padding: "10dp"
-                pos_hint: {"center_x": .5, "center_y": .5}
-                orientation: 'vertical'
-
-
-                MDSpinner:
-                    id:screen_spinner
-                    size_hint: None, None
-                    size: dp(80), dp(80)
-                    pos_hint: {'center_x': .5, 'center_y': .5}
-                    active:False
-                    line_width:'4dp'
-                                
-
-                
-                # MDCard:
-                #     id: my_location_card
-                #     line_color:(0.2, 0.2, 0.2, 0.8)
-                #     style:"elevated"
-                #     shadow_softness:2
-                #     shadow_offset:(0, 1)
-
-                MDGridLayout:
-                    id: my_location_card
-                    cols:2
-                    padding: "7dp"
-                    spacing: '5dp'
-                    MDCard:
-                        line_color:(0.2, 0.2, 0.2, 0.8)
-                        style:"outlined"
-                        shadow_softness:2
-                        shadow_offset:(0, 1)
-                        size_hint: 1,.5
-
-                        MDGridLayout:
-                            cols:1
-                            padding: "10dp"
-                            Image:
-                                allow_stretch:True
-                                keep_ratio:False
-                                id:weather_icon
-                                source:"no_weather_data.png"
-                                size_hint: .5,.8
-                            MDLabel:
-                                text: "weather description"
-                                size_hint: .5,.2
-                            
+            MDCard:
+                MDFloatLayout:
+                    id: my_location_screen
 
                     MDCard:
-                        line_color:(0.2, 0.2, 0.2, 0.8)
-                        style:"outlined"
-                        shadow_softness:2
-                        shadow_offset:(0, 1)
-                        size_hint: 1,.5
+                        line_color:(1,1,1,1)
+                        style:"elevated"
+                        size_hint: .4,.2
+                        pos_hint: {'right': 0.49,'top': 0.8}
+                        ripple_behavior: True
+
+                        MDLabel:
+                            id:lat
+                            halign:"center"
+                            text: f'Lat: {str(app.custom_loc[0])}'
+                            font_size: 48
+
+                    MDCard:
+                        line_color:(1,1,1,1)
+                        style:"elevated"
+                        size_hint: .4,.2
+                        pos_hint: {'right': 0.91,'top': 0.8}
+                        ripple_behavior: True
+
+                        MDLabel:
+                            id:lon
+                            halign:"center"
+                            text: f'Lon: {str(app.custom_loc[1])}'
+                            font_size: 45
+
+                    MDRectangleFlatIconButton:
+                        icon: "map-marker"
+                        text: "Get Location  Information"
+                        text_color: "white"
+                        line_color: "red"
+                        icon_color: "orange"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                        size_hint: .3,.1
+                        on_press: app.loc_pressed()
+                        on_release: app.loc_released()
+
+                    MDRectangleFlatIconButton:
+                        id:weather_button
+                        icon: "information"
+                        text: "Get Location  Information"
+                        text_color: "white"
+                        line_color: "red"
+                        icon_color: "orange"
+                        pos_hint: {'center_x': 0.5,'center_y': 0.35}
+                        size_hint: .3,.1
+                        on_press:app.weather_pressed()
+                        on_release:app.weather_released()
+                        disabled: True if app.custom_loc[0]=='00.0000' else False
+
+                    MDSpinner:
+                        id:my_spinner
+                        size_hint: None, None
+                        size: dp(100), dp(100)
+                        pos_hint: {'center_x': .5, 'center_y': .5}
+                        active:False
+
+                    MDLabel:
+                        id:network_error_label
+                        text:""
+                        halign:"center"
+                        pos_hint:{'center_x': 0.5,'center_y': 0.2}
+                        opacity: 0
+
 
 
         MDBottomNavigationItem:
