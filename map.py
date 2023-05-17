@@ -1,6 +1,5 @@
 from kivymd.app import MDApp
-from kivy.garden.mapview import MapView
-
+from kivy_garden.mapview import MapView 
 class MapViewApp(MDApp):
     def build(self):
         mapview=MapView(

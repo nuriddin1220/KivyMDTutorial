@@ -2,7 +2,7 @@ MDBoxLayout:
     orientation: 'vertical'
 
     MDTopAppBar:
-        # title: "Ob-havo ma'lumoti"
+        title: "Weather Info"
         left_action_items: [["menu"]]
         elevation:4
         
@@ -31,7 +31,6 @@ MDBoxLayout:
             MDCard:
                 MDFloatLayout:
                     id: my_location_screen
-
                     MDCard:
                         line_color:(1,1,1,1)
                         style:"elevated"
@@ -72,7 +71,7 @@ MDBoxLayout:
                     MDRectangleFlatIconButton:
                         id:weather_button
                         icon: "information"
-                        text: "Get Location  Information"
+                        text: "Get Weather  Information"
                         text_color: "white"
                         line_color: "red"
                         icon_color: "orange"
@@ -81,12 +80,6 @@ MDBoxLayout:
                         on_press:app.weather_pressed()
                         on_release:app.weather_released()
 
-                    MDSpinner:
-                        id:my_spinner
-                        size_hint: None, None
-                        size: dp(100), dp(100)
-                        pos_hint: {'center_x': .5, 'center_y': .5}
-                        active:False
 
                     MDLabel:
                         id:network_error_label
@@ -103,9 +96,26 @@ MDBoxLayout:
             icon: "map-search-outline"
     
 
-            MDLabel:
-                text: "My Instagram:\nsharipov_n"
-                halign: "center"
+            MDCard:
+                FloatLayout:
+                    id:map_screen
+                    MDRectangleFlatIconButton:
+                        id:open_map
+                        icon: "google-maps"
+                        text: "Open map by OpenStreetMap"
+                        text_color: "white"
+                        line_color: "red"
+                        icon_color: "orange"
+                        pos_hint: {'center_x': 0.5,'top': 0.6}
+                        size_hint: .3,.1
+                        on_press:app.map_button_pressed()
+                        on_release:app.map_button_released()
 
+                    MDLabel:
+                        id:map_label
+                        halign: "center"
+                        text: ""
+                        size_hint: .3,.1
+                        pos_hint: {'center_x':0.5,'top':0.45}
 
         
