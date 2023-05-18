@@ -1,3 +1,8 @@
+
+
+
+
+
 MDBoxLayout:
     orientation: 'vertical'
 
@@ -18,7 +23,11 @@ MDBoxLayout:
             icon: "city-variant-outline"
     
             # Add Contents here
+
             ScrollView:
+                pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                size_hint: 1,1
+                id:hududlar_page
                 MDList:
                     id:hudud_list
                     
