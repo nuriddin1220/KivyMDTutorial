@@ -1,130 +1,187 @@
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "#e7e4c0"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: "#c5bdd2"
+    selected_color: "#0c6c4d"
 
 
+<DrawerLabelItem@MDNavigationDrawerItem>
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    focus_behavior: False
+    selected_color: "#4a4939"
+    _no_ripple_effect: True
 
+MDScreen:
 
+    MDNavigationLayout:
 
-MDBoxLayout:
-    orientation: 'vertical'
+        MDScreenManager:
+            MDScreen:
+                MDBoxLayout:
+                    orientation: 'vertical'
 
-    MDTopAppBar:
-        title: "Weather Info"
-        left_action_items: [["menu"]]
-        elevation:4
-        
+                    MDTopAppBar:
+                        title: "Weather Info"
+                        left_action_items: [["menu", lambda x: nav_drawer.set_state("open")]]
+                        elevation:4
+                        
 
-    MDBottomNavigation:
-        selected_color_background: "orange"
-        text_color_active: "blue"
-        text_color_normal: 1, 1, 1, 1
+                    MDBottomNavigation:
+                        selected_color_background: "orange"
+                        text_color_active: "blue"
+                        text_color_normal: 1, 1, 1, 1
 
-        MDBottomNavigationItem:
-            name: "screen 1"
-            text: "Asosiy Shaharlar"
-            icon: "city-variant-outline"
-    
-            # Add Contents here
-
-            ScrollView:
-                pos_hint: {'center_x': 0.5,'center_y': 0.5}
-                size_hint: 1,1
-                id:hududlar_page
-                MDList:
-                    id:hudud_list
+                        MDBottomNavigationItem:
+                            name: "screen 1"
+                            text: "Asosiy Shaharlar"
+                            icon: "city-variant-outline"
                     
-        MDBottomNavigationItem:
-            name: "screen 2"
-            text: "Mening Joylashuvim"
-            icon: "map-marker-radius-outline"
-            on_tab_release: app.my_loc_tab()
+                            # Add Contents here
 
-            MDCard:
-                MDFloatLayout:
-                    id: my_location_screen
-                    MDCard:
-                        line_color:(1,1,1,1)
-                        style:"elevated"
-                        size_hint: .4,.2
-                        pos_hint: {'right': 0.49,'top': 0.8}
-                        ripple_behavior: True
+                            ScrollView:
+                                pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                                size_hint: 1,1
+                                id:hududlar_page
+                                MDList:
+                                    id:hudud_list
+                                    
+                        MDBottomNavigationItem:
+                            name: "screen 2"
+                            text: "Mening Joylashuvim"
+                            icon: "map-marker-radius-outline"
+                            on_tab_release: app.my_loc_tab()
 
-                        MDLabel:
-                            id:lat
-                            halign:"center"
-                            text: f'Lat: {str(app.custom_loc[0])}'
-                            font_size: 48
+                            MDCard:
+                                MDFloatLayout:
+                                    id: my_location_screen
+                                    MDCard:
+                                        line_color:(1,1,1,1)
+                                        style:"elevated"
+                                        size_hint: .4,.2
+                                        pos_hint: {'right': 0.49,'top': 0.8}
+                                        ripple_behavior: True
 
-                    MDCard:
-                        line_color:(1,1,1,1)
-                        style:"elevated"
-                        size_hint: .4,.2
-                        pos_hint: {'right': 0.91,'top': 0.8}
-                        ripple_behavior: True
+                                        MDLabel:
+                                            id:lat
+                                            halign:"center"
+                                            text: f'Lat: {str(app.custom_loc[0])}'
+                                            font_size: 48
 
-                        MDLabel:
-                            id:lon
-                            halign:"center"
-                            text: f'Lon: {str(app.custom_loc[1])}'
-                            font_size: 45
+                                    MDCard:
+                                        line_color:(1,1,1,1)
+                                        style:"elevated"
+                                        size_hint: .4,.2
+                                        pos_hint: {'right': 0.91,'top': 0.8}
+                                        ripple_behavior: True
 
-                    MDRectangleFlatIconButton:
-                        icon: "map-marker"
-                        text: "Get Location  Information"
-                        text_color: "white"
-                        line_color: "red"
-                        icon_color: "orange"
-                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
-                        size_hint: .3,.1
-                        on_press: app.loc_pressed()
-                        on_release: app.loc_released()
+                                        MDLabel:
+                                            id:lon
+                                            halign:"center"
+                                            text: f'Lon: {str(app.custom_loc[1])}'
+                                            font_size: 45
 
-                    MDRectangleFlatIconButton:
-                        id:weather_button
-                        icon: "information"
-                        text: "Get Weather  Information"
-                        text_color: "white"
-                        line_color: "red"
-                        icon_color: "orange"
-                        pos_hint: {'center_x': 0.5,'center_y': 0.35}
-                        size_hint: .3,.1
-                        on_press:app.weather_pressed()
-                        on_release:app.weather_released()
+                                    MDRectangleFlatIconButton:
+                                        icon: "map-marker"
+                                        text: "Get Location  Information"
+                                        text_color: "white"
+                                        line_color: "red"
+                                        icon_color: "orange"
+                                        pos_hint: {'center_x': 0.5,'center_y': 0.5}
+                                        size_hint: .3,.1
+                                        on_press: app.loc_pressed()
+                                        on_release: app.loc_released()
 
-
-                    MDLabel:
-                        id:network_error_label
-                        text:""
-                        halign:"center"
-                        pos_hint:{'center_x': 0.5,'center_y': 0.2}
-                        opacity: 0
+                                    MDRectangleFlatIconButton:
+                                        id:weather_button
+                                        icon: "information"
+                                        text: "Get Weather  Information"
+                                        text_color: "white"
+                                        line_color: "red"
+                                        icon_color: "orange"
+                                        pos_hint: {'center_x': 0.5,'center_y': 0.35}
+                                        size_hint: .3,.1
+                                        on_press:app.weather_pressed()
+                                        on_release:app.weather_released()
 
 
+                                    MDLabel:
+                                        id:network_error_label
+                                        text:""
+                                        halign:"center"
+                                        pos_hint:{'center_x': 0.5,'center_y': 0.2}
+                                        opacity: 0
 
-        MDBottomNavigationItem:
-            name: "screen 3"
-            text: "Xarita Bo'yicha"
-            icon: "map-search-outline"
-    
 
-            MDCard:
-                FloatLayout:
-                    id:map_screen
-                    MDRectangleFlatIconButton:
-                        id:open_map
-                        icon: "google-maps"
-                        text: "Open map by OpenStreetMap"
-                        text_color: "white"
-                        line_color: "red"
-                        icon_color: "orange"
-                        pos_hint: {'center_x': 0.5,'top': 0.6}
-                        size_hint: .3,.1
-                        on_press:app.map_button_pressed()
-                        on_release:app.map_button_released()
 
-                    MDLabel:
-                        id:map_label
-                        halign: "center"
-                        text: ""
-                        size_hint: .3,.1
-                        pos_hint: {'center_x':0.5,'top':0.45}
+                        MDBottomNavigationItem:
+                            name: "screen 3"
+                            text: "Xarita Bo'yicha"
+                            icon: "map-search-outline"
+                    
 
-        
+                            MDCard:
+                                FloatLayout:
+                                    id:map_screen
+                                    MDRectangleFlatIconButton:
+                                        id:open_map
+                                        icon: "google-maps"
+                                        text: "Open map by OpenStreetMap"
+                                        text_color: "white"
+                                        line_color: "red"
+                                        icon_color: "orange"
+                                        pos_hint: {'center_x': 0.5,'top': 0.6}
+                                        size_hint: .3,.1
+                                        on_press:app.map_button_pressed()
+                                        on_release:app.map_button_released()
+
+                                    MDLabel:
+                                        id:map_label
+                                        halign: "center"
+                                        text: ""
+                                        size_hint: .3,.1
+                                        pos_hint: {'center_x':0.5,'top':0.45}
+
+
+        MDNavigationDrawer:
+            id: nav_drawer
+            radius: (0, 16, 16, 0)
+
+            MDNavigationDrawerMenu:
+
+                MDNavigationDrawerHeader:
+                    title: "Weather Info"
+                    title_color: "#4a4939"
+                    text: "simple  kivymd project"
+                    spacing: "4dp"
+                    padding: "12dp", 0, 0, "56dp"
+
+                MDNavigationDrawerLabel:
+                    text: "About"
+
+                DrawerClickableItem:
+                    icon: "information-outline"
+                    right_text: ""
+                    text_right_color: "#4a4939"
+                    text: "Author"
+                    on_release:app.author_button_released()
+
+                DrawerClickableItem:
+                    icon: "api"
+                    text: "API info"
+                    on_release:app.api_button_released()
+
+                MDNavigationDrawerDivider:
+
+                MDNavigationDrawerLabel:
+                    text: "Contact"
+
+                DrawerLabelItem:
+                    icon: "phone"
+                    text: "+99899 3961829"
+
+                # DrawerLabelItem:
+                #     icon: "information-outline"
+                #     text: "Label"
+                        

@@ -11,6 +11,7 @@ from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.list.list import MDList,OneLineAvatarIconListItem, IconLeftWidget,ImageLeftWidget
 from kivy.uix.image import AsyncImage
+from kivy.core.window import Window
 import datetime
 import requests
 import geocoder
@@ -42,6 +43,7 @@ def get_weather(lat,long,appid,language='en'):
 
 class MainApp(MDApp):
     title="Nuriddin's Weather App"
+    icon="weather-cloudy-clock"
     appid='a6ffc8b3cadf6c0445beba80ac186b62'
     with open('vils.json') as json_f:
             data_list=json.load(json_f)
@@ -58,8 +60,8 @@ class MainApp(MDApp):
         self.theme_cls.material_style = "M3"
         self.theme_cls.primary_palette = "BlueGray"
         self.widget_added = False
-        self.spinner_added=False
         return Builder.load_file("weather.kv")
+    
     
     
     def on_start(self):         
@@ -72,6 +74,29 @@ class MainApp(MDApp):
                     on_release=lambda x, item=item: self.on_list_item_release(item)
             )
             hudud_list.add_widget(line_item)
+
+    def author_button_released(self):
+        menu = MDScrollView(
+                            MDList(
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="account",theme_icon_color="Custom",icon_color="orange"),text=f"name: Sharipov Nuriddin"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="calendar-today-outline",theme_icon_color="Custom",icon_color="orange"),text=f"bith year: 1997"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="city",theme_icon_color="Custom",icon_color="orange"),text=f"from : Namangan"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="map-marker",theme_icon_color="Custom",icon_color="orange"),text=f"living location: Tashkent"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="briefcase-outline",theme_icon_color="Custom",icon_color="orange"),text=f"work: REPN JSC"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="bio",theme_icon_color="Custom",icon_color="orange"),text=f"bio: I am curious about testing Python libs")))
+        popup = Popup(content=menu,title=f"Author",auto_dismiss=True,pos_hint = {'center_x':0.5,'top':0.9},size_hint=(0.5,0.5))
+        popup.content=menu
+        popup.open()
+    
+    def api_button_released(self):
+        menu = MDScrollView(
+                            MDList(
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="read",theme_icon_color="Custom",icon_color="orange"),text="""Current Weather Data API Call"""),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="code-json",theme_icon_color="Custom",icon_color="orange"),text=f"formats: JSON, XML, and HTML formats"),
+                                OneLineAvatarIconListItem(IconLeftWidget(icon="currency-usd-off",theme_icon_color="Custom",icon_color="orange"),text=f"options : Free and Paid subscriptions")))
+        popup = Popup(content=menu,title=f"OpenWeather API",auto_dismiss=True,pos_hint = {'center_x':0.5,'top':0.9},size_hint=(0.6,0.7))
+        popup.content=menu
+        popup.open()
 
 
     def on_list_item_release(self,item):
